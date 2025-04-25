@@ -7,8 +7,6 @@ pipeline {
         APP_DIR = '/home/ec2-user/your-app'
         GIT_REPO = 'https://github.com/Shreyasbhandesh/webapp.git'
     }
-       
-  }  
     stages {
         stage('Build') {
             steps {
