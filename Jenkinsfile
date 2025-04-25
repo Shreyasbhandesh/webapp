@@ -1,13 +1,22 @@
 pipeline {
     agent any
   environment{
+      DEPLOY_USER = 'ec2-user'
+        DEPLOY_HOST = '65.0.11.145'
+       
+        APP_DIR = '/home/ec2-user/your-app'
+        GIT_REPO = 'https://github.com/Shreyasbhandesh/webapp.git'
+    }
        
   }  
     stages {
         stage('Build') {
             steps {
+                sh '''
                 echo 'Building...'
+                git clone ${GIT_REPO}
                 // Example: sh 'make build' or your build command
+                sh'''
             }
         }
         stage('Test') {
@@ -18,9 +27,11 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
-                // Example: Deploy to server via SSH, SCP, or use a deployment tool
-                // sh 'scp target/app.jar user@server:/deploy/path/'
+                sh '''
+                echo 'Deploying...'              
+                scp -r * ${DEPLOY_USER}@${DEPLOY_HOST}:${APP_DIR}
+                ssh ${DEPLOY_USER}@${DEPLOY_HOST} 'cd ${APP_DIR} && ./deploy.sh'
+               sh '''
             }
         }
     }
