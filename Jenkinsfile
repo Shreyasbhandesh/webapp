@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh '''
                 echo 'Building...'
-                git clone ${GIT_REPO}
+               git url: "${GIT_REPO}"
                 // Example: sh 'make build' or your build command
                 sh'''
             }
